@@ -1,7 +1,7 @@
 # docker-vulhub-runner
 A docker runner for vulhub environment. 
 <p align="center">
-  <a href="https://github.com/cybersecsi/docker-vulhub-runner/README.md"><img src="https://img.shields.io/badge/Documentation-complete-green.svg?style=flat"></a>
+  <a href="https://github.com/cybersecsi/docker-vulhub-runner/blob/main/README.md"><img src="https://img.shields.io/badge/Documentation-complete-green.svg?style=flat"></a>
   <a href="https://github.com/cybersecsi/docker-vulhub-runner/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-GNU%20GPL-blue"></a>
 </p>
 
