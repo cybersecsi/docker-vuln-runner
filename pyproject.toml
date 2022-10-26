@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "docker-vulnhub-runner"
+version = "0.1.0"
+description = ""
+authors = ["giper45 <18548727+giper45@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{include = "docker_vulhub_runner"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pyyaml = "^6.0"
+typer = "^0.6.1"
+python-on-whales = "^0.53.0"
+gitpython = "^3.1.29"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+vulhub-runner = 'docker_vulhub_runner.main:app'

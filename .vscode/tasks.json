@@ -1,0 +1,59 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "1.0.0",
+    "tasks": [
+        {
+            "label": "list",
+            "type": "shell",
+            "command": "poetry run vulhub-runner list"
+        },
+        {
+            "label": "run-wrong",
+            "type": "shell",
+            "command": "poetry run vulhub-runner run CVE-20"
+        },
+        {
+            "label": "init",
+            "type": "shell",
+            "command": "poetry run vulhub-runner init "
+        },
+        {
+            "label": "run",
+            "type": "shell",
+            "command": "poetry run vulhub-runner run CVE-2017-12635,CVE-2017-17405,CVE-2018-18925"
+        },
+        {
+            "label": "down",
+            "type": "shell",
+            "command": "poetry run vulhub-runner down CVE-2017-12635,CVE-2017-17405,CVE-2018-18925"
+        },
+        {
+            "label": "run-duplicates",
+            "type": "shell",
+            "command": "poetry run vulhub-runner run CVE-2017-12635,CVE-2017-17405,CVE-2018-18925,CVE-2021-42342"
+        },
+        {
+            "label": "update",
+            "type": "shell",
+            "command": "poetry run vulhub-runner update"
+        },
+        {
+            "label": "generate",
+            "type": "shell",
+            "command": "poetry run vulhub-runner generate-vulnenv 5 --no-env=9"
+        },
+        {
+            "label": "runenv",
+            "type": "shell",
+            "command": "poetry run vulhub-runner run-env output.json 1"
+
+        },
+        {
+            "label": "rundown",
+            "type": "shell",
+            "command": "poetry run vulhub-runner down-env output.json 1"
+
+        }
+    ]
+}
