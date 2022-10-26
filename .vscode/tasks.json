@@ -41,7 +41,7 @@
         {
             "label": "generate",
             "type": "shell",
-            "command": "poetry run vulhub-runner generate-vulnenv 5 --no-env=9"
+            "command": "poetry run vulhub-runner generate-vulnenv 10 --no-env=20"
         },
         {
             "label": "runenv",

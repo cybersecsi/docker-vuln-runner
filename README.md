@@ -10,6 +10,7 @@ A docker runner for vulhub environment.
 - [Install](#install)
 - [Usage](#usage)
 - [Demo](#demo)
+- [Development](#development)
 - [Credits](#credits)
 - [License](#license)
 
@@ -55,7 +56,18 @@ Commands:
 ```
 
 ## Demo
-TBD
+TBD  
+## Development  
+The [poetry](https://python-poetry.org/) packaging and management tool was used to build the project.  
+To initialize the project: 
+```
+poetry install 
+```  
+
+To run the several commands, you can use poetry as follows:  
+``` 
+poetry run vulhub-runner <command> 
+```  
 
 ## Credits
 Developed by gx1 [@SecSI](https://secsi.io)
