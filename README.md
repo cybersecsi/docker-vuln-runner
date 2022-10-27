@@ -8,7 +8,7 @@
 <p>
 <p align="center">
   <a href="https://github.com/cybersecsi/docker-vuln-runner/blob/main/README.md"><img src="https://img.shields.io/badge/Documentation-complete-green.svg?style=flat"></a>
-  <a href="https://github.com/cybersecsi/docker-vuln-runner/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-GNU%20GPL-blue"></a>
+  <a href="https://github.com/cybersecsi/docker-vuln-runner/blob/main/LICENSE.md"><img src="https://img.shields.io/badge/License-GNU%20GPL-blue"></a>
 </p>
 
 ## Table of Contents
