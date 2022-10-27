@@ -1,5 +1,11 @@
-# docker-vuln-runner
-A docker runner for docker-based vulnerable environments. 
+<h1 align="center">
+  <br>
+    <img src="https://raw.githubusercontent.com/cybersecsi/docker-vuln-runner/main/logo.png" alt= "Docker Vuln Runner" width="300px">
+</h1>
+<p align="center">
+    <b>Docker Vuln Runner</b> <br />
+    A Docker runner for docker-based vulnerable environments. 
+<p>
 <p align="center">
   <a href="https://github.com/cybersecsi/docker-vuln-runner/blob/main/README.md"><img src="https://img.shields.io/badge/Documentation-complete-green.svg?style=flat"></a>
   <a href="https://github.com/cybersecsi/docker-vuln-runner/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-GNU%20GPL-blue"></a>
@@ -15,10 +21,10 @@ A docker runner for docker-based vulnerable environments.
 - [License](#license)
 
 ## Overview
-``docker-vuln-runner``  is a tool that allows you to quickly run the docker vulnerable stacks. 
+``vuln-runner``  is a tool that allows you to quickly run the docker vulnerable stacks. 
 
 The vulnerable stack actually supported are: 
-* [vuhub repo](https://github.com/vulhub/vulhub)
+* [vulhub repo](https://github.com/vulhub/vulhub)
 
 At [SecSI](https://secsi.io) we found it useful to reproduce vulnerable environments for training purposes. To reproduce vulnerable environment easily, take a look at [DSP](https://secsi.io/docker-security-playground/).
 
@@ -84,4 +90,4 @@ poetry run vuln-runner <command>
 Developed by gx1 [@SecSI](https://secsi.io)
 
 ## License
-*GPL* is released under the [GPL LICENSE](https://github.com/cybersecsi/docker-vuln-runner/blob/main/LICENSE.md)
+*Docker Vuln Runner* is released under the [GPL LICENSE](https://github.com/cybersecsi/docker-vuln-runner/blob/main/LICENSE.md)
