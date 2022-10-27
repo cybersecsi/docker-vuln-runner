@@ -54,6 +54,12 @@
             "type": "shell",
             "command": "poetry run vuln-runner down-env output.json 1"
 
+        },
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "poetry build"
+
         }
     ]
 }

@@ -3,6 +3,8 @@ from gc import is_finalized
 import glob
 from os import path
 import sys
+import pkg_resources
+VERSION = pkg_resources.get_distribution('vuln-runner').version
 
 # Colors
 SUCCESS_C = '\033[92m'
@@ -21,8 +23,8 @@ def banner(silent = False):
         ╚════██║██╔══╝  ██║     ╚════██║██║
         ███████║███████╗╚██████╗███████║██║
         ╚══════╝╚══════╝ ╚═════╝╚══════╝╚═╝
-        vuln-runner v0.1.0 - https://github.com/cybersecsi/docker-vuln-runner
-        ''')   
+        vuln-runner v{} - https://github.com/cybersecsi/docker-vuln-runner
+        '''.format(VERSION))
 
 def log(msg, silent = False):
     if not silent:
