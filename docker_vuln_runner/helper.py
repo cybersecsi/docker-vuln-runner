@@ -4,10 +4,6 @@ import glob
 from os import path
 import sys
 
-from docker_vulhub_runner.vulhub import Vulhub
-
-
-
 # Colors
 SUCCESS_C = '\033[92m'
 DEBUG_C = '\033[93m'
@@ -25,7 +21,7 @@ def banner(silent = False):
         ╚════██║██╔══╝  ██║     ╚════██║██║
         ███████║███████╗╚██████╗███████║██║
         ╚══════╝╚══════╝ ╚═════╝╚══════╝╚═╝
-        vulhub v0.1.5 - https://github.com/cybersecsi/docker-vulhub-runner
+        vuln-runner v0.1.5 - https://github.com/cybersecsi/docker-vuln-runner
         ''')   
 
 def log(msg, silent = False):
@@ -52,32 +48,5 @@ def bold(msg):
 def get_compose_name(full_path):
     return path.basename(path.normpath(path.dirname(full_path)))
 
-def find_vulhub_projects(base_path):
-    ret = []
-    for filename in glob.iglob(path.join(base_path, '**/docker-compose.yml'), recursive=True):
-        ret.append(Vulhub(get_compose_name(filename), filename))
-    return ret
 
-def run_vulhub(vulhubs, vulhub_name):
-    if not Vulhub.contains(vulhubs, vulhub_name):
-        err("{} vulhub not found".format(vulhub_name))
 
-    vulhub_obj = Vulhub.find_by_name(vulhubs, vulhub_name)
-    vulhub_obj.run()
-
-def down_vulhub(vulhubs, vulhub_name):
-    if not Vulhub.contains(vulhubs, vulhub_name):
-        err("{} vulhub not found".format(vulhub_name))
-
-    vulhub_obj = Vulhub.find_by_name(vulhubs, vulhub_name)
-    vulhub_obj.down()
-
-def get_ports(vulhubs, vulhub_name):
-    if not Vulhub.contains(vulhubs, vulhub_name):
-        err("{} vulhub not found".format(vulhub_name))
-    vulhub_obj = Vulhub.find_by_name(vulhubs, vulhub_name)
-    return vulhub_obj.ports()
-
-def check_init():
-    if not Vulhub.is_initialized():
-        err("{} does not exist, please run \"vulhub-runner init\" first".format(Vulhub.home()))

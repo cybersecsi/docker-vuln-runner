@@ -1,5 +1,5 @@
-import docker_vulhub_runner.helper as helper
-from docker_vulhub_runner.vulhub import Vulhub, Vulnenv
+import docker_vuln_runner.helper as helper
+from docker_vuln_runner.vuln import Vuln, Vulnenv, vuln_home, get_vuln_objects, all_ports, get_duplicates, init, check_init, vuln_update, is_initialized, vuln_names, run_vuln, find_vuln_projects, down_vuln
 import typer
 import json
 import os
@@ -11,12 +11,12 @@ typer_app = typer.Typer(add_completion=False)
 @typer_app.command()
 def init():
     helper.banner()
-    if Vulhub.is_initialized():
+    if is_initialized():
         helper.bold("vulhub already initialized!")
     else:
-        helper.log("Clone vulhub in {}".format(Vulhub.home()))
-        Vulhub.init()
-        helper.success("Vulhub initialized!")
+        helper.log("Init vuln-runner")
+        init()
+        helper.success("Vuln initialized!")
 
 
 @typer_app.command()
@@ -25,10 +25,10 @@ def list(silent: bool = typer.Option(False, "--silent")):
     List the vulhub cves
     """
     helper.banner(silent)
-    helper.check_init()
-    helper.log("Find vulhub repo in {}".format(Vulhub.home()), silent)
-    vulhubs = helper.find_vulhub_projects(Vulhub.home())
-    names = Vulhub.names(vulhubs)
+    check_init()
+    helper.log("Find vuln repo in {}".format(vuln_home()), silent)
+    vulhubs = find_vuln_projects(vuln_home())
+    names = vuln_names(vulhubs)
     print("\n".join(names))
 
 
@@ -37,9 +37,9 @@ def update():
     """Update the vulhub git repository
     """
     helper.banner()
-    helper.check_init()
-    Vulhub.update()
-    helper.success("Vulhub updated!")
+    check_init()
+    vuln_update()
+    helper.success("Vuln updated!")
 
 
 @typer_app.command()
@@ -51,13 +51,13 @@ def run(vulhub_names: str, silent: bool = typer.Option(False, "--silent")):
         silent (bool, optional): Silent mode, disable the log to parse the output. Defaults to False
     """
     helper.banner(silent)
-    helper.check_init()
-    helper.log("Find vulhub repo in {}".format(Vulhub.home()), silent)
-    vulhubs = helper.find_vulhub_projects(Vulhub.home())
+    check_init()
+    helper.log("Find vuln repos in {}".format(vuln_home()), silent)
+    vulhubs = find_vuln_projects(vuln_home())
     vulhub_names = vulhub_names.split(",")
-    vulhub_objects = Vulhub.get_vulhub_objects(vulhubs, vulhub_names)
-    ports = Vulhub.all_ports(vulhub_objects)
-    duplicates = Vulhub.get_duplicates(ports)
+    vulhub_objects = get_vuln_objects(vulhubs, vulhub_names)
+    ports = all_ports(vulhub_objects)
+    duplicates = get_duplicates(ports)
     if len(duplicates) > 0:
         helper.err(
             "Cannot run, the following ports are duplicates: {}".format(duplicates))
@@ -65,7 +65,7 @@ def run(vulhub_names: str, silent: bool = typer.Option(False, "--silent")):
     # Ok, now run
     for vn in vulhub_names:
         helper.log("Run {}".format(vn))
-        helper.run_vulhub(vulhubs, vn)
+        run_vuln(vulhubs, vn)
 
 
 @typer_app.command()
@@ -78,11 +78,11 @@ def down(vulhub_names: str, silent: bool = typer.Option(False, "--silent")):
     """
 
     helper.banner(silent)
-    helper.check_init()
-    helper.log("Find vulhub repo in {}".format(Vulhub.home()), silent)
-    vulhubs = helper.find_vulhub_projects(Vulhub.home())
+    check_init()
+    helper.log("Find vuln repo in {}".format(vuln_home()), silent)
+    vulhubs = find_vuln_projects(vuln_home())
     vulhub_names = vulhub_names.split(",")
-    vulhub_objects = Vulhub.get_vulhub_objects(vulhubs, vulhub_names)
+    vulhub_objects = get_vuln_objects(vulhubs, vulhub_names)
     for vn in vulhub_objects:
         vn.down()
 
@@ -96,8 +96,8 @@ def generate_vulnenv(no_vulns: int, no_env: int = 1):
         no_env (int, optional): The number of vulnerable environments. Defaults to 1.
     """
     helper.banner(True)
-    helper.check_init()
-    vulhubs = helper.find_vulhub_projects(Vulhub.home())
+    check_init()
+    vulhubs = find_vuln_projects(vuln_home())
     vuln_env = Vulnenv(vulhubs)
 
     try:
@@ -118,8 +118,8 @@ def run_env(json_file: str, id_env: int):
         id_env (int): The environment ID
     """
     helper.banner(True)
-    helper.check_init()
-    vulhubs = helper.find_vulhub_projects(Vulhub.home())
+    check_init()
+    vulhubs = find_vuln_projects(vuln_home())
     if os.path.isfile(json_file):
         with open(json_file) as myfile:
             file_content = myfile.read()
@@ -130,7 +130,7 @@ def run_env(json_file: str, id_env: int):
                     helper.err("No valid id_env: {}".format(id_env))
                 vuln_list = envs[str(id_env)]
                 for v in vuln_list:
-                    helper.run_vulhub(vulhubs, v['name'])
+                    run_vuln(vulhubs, v['name'])
 
             except Exception as e:
                 # Cannot read the file
@@ -148,8 +148,8 @@ def down_env(json_file: str, id_env: int):
     """
 
     helper.banner(True)
-    helper.check_init()
-    vulhubs = helper.find_vulhub_projects(Vulhub.home())
+    check_init()
+    vulhubs = find_vuln_projects(vuln_home())
     if os.path.isfile(json_file):
         with open(json_file) as myfile:
             file_content = myfile.read()
@@ -160,7 +160,7 @@ def down_env(json_file: str, id_env: int):
                     helper.err("No valid id_env: {}".format(id_env))
                 vuln_list = envs[str(id_env)]
                 for v in vuln_list:
-                    helper.down_vulhub(vulhubs, v['name'])
+                    down_vuln(vulhubs, v['name'])
 
             except Exception as e:
                 # Cannot read the file
