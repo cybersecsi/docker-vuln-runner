@@ -1,5 +1,5 @@
 import docker_vuln_runner.helper as helper
-from docker_vuln_runner.vuln import Vuln, Vulnenv, vuln_home, get_vuln_objects, all_ports, get_duplicates, vuln_init, check_init, vuln_update, is_initialized, vuln_names, run_vuln, find_vuln_projects, down_vuln
+from docker_vuln_runner.vuln import Vuln, Vulnenv, vuln_home, get_vuln_objects, all_ports, get_duplicates, vuln_init, check_init, vuln_update, is_initialized, vuln_names, run_vuln, find_vuln_projects, down_vuln, check_docker
 import typer
 import json
 import os
@@ -14,6 +14,7 @@ def init():
     Initialize vuln-runner    
     """
     helper.banner()
+    check_docker()
     if is_initialized():
         helper.bold("vulhub already initialized!")
     else:

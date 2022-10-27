@@ -6,7 +6,7 @@ import glob
 from git import Repo
 import git 
 import json
-from python_on_whales import DockerClient
+from python_on_whales import DockerClient, docker as docker_cli
 
 class VulnRepo:
     """A vulnerable repository instance
@@ -143,7 +143,22 @@ def vuln_init():
         log("Clone {} in {}".format(v.repo, v.home()))
         Repo.clone_from(v.repo, v.home())
 
+def check_docker():
+    if not docker_cli.compose.is_installed():
+        err(""" 
+        Please install 'docker compose' (version 2)
+        
+        ```
+        sudo systemctl stop docker
+        sudo systemctl stop docker.socket
+        sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-compose-plugin
+        curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
+        sudo bash /tmp/get-docker.sh
+        ```
+
+        """)
 def check_init():
+    check_docker()
     if not is_initialized():
         err("{} does not exist, please run \"vuln-runner init\" first".format(vuln_home()))
 
