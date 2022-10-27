@@ -73,9 +73,12 @@ poetry install
 ```  
 
 To run the several commands, you can use poetry as follows:  
+
 ``` 
-poetry run vuln-runner <command> 
-```  
+poetry run vuln-runner <command>  
+```
+
+
 
 ## Credits
 Developed by gx1 [@SecSI](https://secsi.io)
