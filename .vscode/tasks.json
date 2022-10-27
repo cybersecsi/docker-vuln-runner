@@ -60,6 +60,12 @@
             "type": "shell",
             "command": "poetry build"
 
+        },
+        {
+            "label": "publish",
+            "type": "shell",
+            "command": "make push"
+
         }
     ]
 }
