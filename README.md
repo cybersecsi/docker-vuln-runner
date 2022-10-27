@@ -59,16 +59,70 @@ Commands:
 
 ```
 
-## Demo
-Init:   
-[![asciicast](https://asciinema.org/a/wwbUs5LZ5g02qgwR9NojM4L2e.svg)](https://asciinema.org/a/wwbUs5LZ5g02qgwR9NojM4L2e)  
+* **Initialized the vulnerable environment:**  
+```
+vuln-runner init
+```
+
+[![asciicast](https://asciinema.org/a/nYJEd62OzL3WLUuigyjeChLIE.svg)](https://asciinema.org/a/nYJEd62OzL3WLUuigyjeChLIE)
 
 
-List: 
-[![asciicast](https://asciinema.org/a/t9U7RatbEBLodBsogpnfy8uGA.svg)](https://asciinema.org/a/t9U7RatbEBLodBsogpnfy8uGA)
+* **List the vulnerable stacks:**
+```
+vuln-runner list
+```  
 
 
-Run a list of compose:  
+[![asciicast](https://asciinema.org/a/raziKJLlR6vWSbiIwY1w8kqaq.svg)](https://asciinema.org/a/raziKJLlR6vWSbiIwY1w8kqaq)  
+
+* **Run a list of vulnerable stacks:**
+
+```
+vuln-runner run vulhub.CVE-2014-3120,vulhub.CVE-2018-1270
+```
+
+[![asciicast](https://asciinema.org/a/wIOCYSrD9o5ZE6NmuCWLTTD8A.svg)](https://asciinema.org/a/wIOCYSrD9o5ZE6NmuCWLTTD8A)  
+
+
+* **Down the list of vulnerable stacks:**
+```
+vuln-runner down vulhub.CVE-2014-3120,vulhub.CVE-2018-1270
+```
+
+[![asciicast](https://asciinema.org/a/fAuTCMJHdxa5sRK0VlbfAKqcV.svg)](https://asciinema.org/a/fAuTCMJHdxa5sRK0VlbfAKqcV)  
+
+### Advanced usage: vulnerable environment  
+With the previous commands you can already manage your vulnerable stacks and manually run and stop them. 
+Anyway, you can also create *vulnerable environments*. 
+A vulnerable environment is a set of vulnerable docker-compose stacks that has not ports' conflicts.   
+You can generate a vulnerable environment descriptor in JSON format with the `generate-vulnenv` command:   
+``` 
+vuln-runner generate-vulnenv NO_VULNS [--no-env=<default=1>]
+```  
+
+* `NO_VULNS` defines the number of vulnerable stacks for each environment. 
+* `--no-env` defines the number of environments. It is useful if you want to run vuln-runner in different hosts, where each host runs a single environment.   
+
+For example, to create a JSON vulnerable descriptor with two vulnerable stack and two environments: 
+```
+vuln-runner generate-vulnenv 2 --no-env=2  
+```
+
+[![asciicast](https://asciinema.org/a/KxRWBVOMLymUQiWgjDDm4f6JS.svg)](https://asciinema.org/a/KxRWBVOMLymUQiWgjDDm4f6JS)   
+
+You can output into the JSON descriptor into a file an reuse with two commands: 
+* **run-env**: run the set of stacks belonging to a vulnerable environment.   
+```
+vuln-runner run-env output.json 1
+```
+[![asciicast](https://asciinema.org/a/vuL2l5vL8bqRefx9EAqYlqxFC.svg)](https://asciinema.org/a/vuL2l5vL8bqRefx9EAqYlqxFC)
+
+* **down-env**: down the vulnerable environment.  
+
+```
+vuln-runner down-env output.json 1
+```
+[![asciicast](https://asciinema.org/a/fAuTCMJHdxa5sRK0VlbfAKqcV.svg)](https://asciinema.org/a/fAuTCMJHdxa5sRK0VlbfAKqcV)  
 
 
 ## Development  
