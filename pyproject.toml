@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "docker-vuln-runner"
-version = "0.1.0"
+name = "vuln-runner"
+version = "0.1.1"
 description = "A Docker runner for docker-based vulnerable environments."
 authors = ["SecSI <dev@secsi.io>"]
 readme = "README.md"

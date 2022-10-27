@@ -4,7 +4,7 @@ from docker_vuln_runner.helper import log, err, get_compose_name
 import os
 import glob
 from git import Repo
-import git 
+import git
 import json
 from python_on_whales import DockerClient, docker as docker_cli
 
@@ -57,7 +57,7 @@ def vuln_contains(vulns, name):
         name (str): The vuln name
 
     Returns:
-        bool: True when 
+        bool: True when
     """
     for v in vulns:
         if v.equal(name):
@@ -66,7 +66,7 @@ def vuln_contains(vulns, name):
 
 
 def find_by_name(vulns, name):
-    """Find the 
+    """Find the
 
     Args:
         vulns (list<Vuln>): The list of vuln objects
@@ -130,7 +130,7 @@ def get_vuln_objects(vulns, names):
     return [v for v in vulns if v.name in names]
 
 def vuln_home():
-    """ 
+    """
         Returns the base vuln home
     """
     home_folder = Path.home()
@@ -138,16 +138,17 @@ def vuln_home():
     return config_folder
 
 def vuln_init():
-    os.mkdir(vuln_home())
+    if not os.path.isdir(vuln_home()):
+        os.mkdir(vuln_home())
     for v in VULN_REPOS:
         log("Clone {} in {}".format(v.repo, v.home()))
         Repo.clone_from(v.repo, v.home())
 
 def check_docker():
     if not docker_cli.compose.is_installed():
-        err(""" 
+        err("""
         Please install 'docker compose' (version 2)
-        
+
         ```
         sudo systemctl stop docker
         sudo systemctl stop docker.socket
@@ -240,7 +241,7 @@ class Vuln:
             "name" : self.name,
             "path" : self.path,
             "ports" : self.ports()
-        }     
+        }
 
 
 
@@ -259,7 +260,7 @@ class Vulnenv:
         self.envs[env_id] = [v.to_obj() for v in vulns]
 
     def create_env(self, env_id, no_vulns):
-        """Collect the list of vulnerabilities, 
+        """Collect the list of vulnerabilities,
         create an env and add to the internal structure
 
         Args:
@@ -272,7 +273,7 @@ class Vulnenv:
         no_collected = 0
         for v in self.vulns:
             new_ports = v.ports()
-            test_ports = busy_ports + new_ports 
+            test_ports = busy_ports + new_ports
             if not get_duplicates(test_ports):
                 busy_ports.extend(v.ports())
                 no_collected = no_collected + 1
