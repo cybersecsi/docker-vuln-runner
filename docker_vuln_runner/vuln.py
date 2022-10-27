@@ -19,7 +19,7 @@ class VulnRepo:
         return os.path.join(vuln_home(), self.name)
 
 VULN_REPOS = [
-    VulnRepo("vulhub", "https://github.com/vuln/vuln")
+    VulnRepo("vulhub", "https://github.com/vulhub/vulhub")
 ]
 
 
@@ -134,10 +134,10 @@ def vuln_home():
         Returns the base vuln home
     """
     home_folder = Path.home()
-    config_folder = os.path.join(home_folder, '.vuln')
+    config_folder = os.path.join(home_folder, '.vulnenv')
     return config_folder
 
-def init():
+def vuln_init():
     os.mkdir(vuln_home())
     for v in VULN_REPOS:
         log("Clone {} in {}".format(v.repo, v.home()))
@@ -155,11 +155,7 @@ def vuln_update():
 
 
 def is_initialized():
-    return os.path.exists(vuln_home())
-
-
-
-
+    return os.path.exists(vuln_home()) and len(os.listdir(vuln_home())) != 0
 
     # def name(self, vulnerable_name):
     #     return "{}.{}".format(self.name, vulnerable_name)

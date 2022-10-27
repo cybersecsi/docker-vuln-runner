@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "docker-vuln-runner"
 version = "0.1.0"
-description = ""
-authors = ["giper45 <18548727+giper45@users.noreply.github.com>"]
+description = "A Docker runner for docker-based vulnerable environments."
+authors = ["SecSI <dev@secsi.io>"]
 readme = "README.md"
 packages = [{include = "docker_vuln_runner"}]
 

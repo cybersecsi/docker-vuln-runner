@@ -1,26 +1,29 @@
 import docker_vuln_runner.helper as helper
-from docker_vuln_runner.vuln import Vuln, Vulnenv, vuln_home, get_vuln_objects, all_ports, get_duplicates, init, check_init, vuln_update, is_initialized, vuln_names, run_vuln, find_vuln_projects, down_vuln
+from docker_vuln_runner.vuln import Vuln, Vulnenv, vuln_home, get_vuln_objects, all_ports, get_duplicates, vuln_init, check_init, vuln_update, is_initialized, vuln_names, run_vuln, find_vuln_projects, down_vuln
 import typer
 import json
 import os
 
 
-typer_app = typer.Typer(add_completion=False)
+typer_app = typer.Typer(add_completion=False, context_settings={"help_option_names": ["-h", "--help"]})
 
 
 @typer_app.command()
 def init():
+    """"
+    Initialize vuln-runner    
+    """
     helper.banner()
     if is_initialized():
         helper.bold("vulhub already initialized!")
     else:
         helper.log("Init vuln-runner")
-        init()
+        vuln_init()
         helper.success("Vuln initialized!")
 
 
 @typer_app.command()
-def list(silent: bool = typer.Option(False, "--silent")):
+def list(silent: bool = typer.Option(False, "--silent", "-s")):
     """
     List the vulhub cves
     """
@@ -34,7 +37,8 @@ def list(silent: bool = typer.Option(False, "--silent")):
 
 @typer_app.command()
 def update():
-    """Update the vulhub git repository
+    """
+    Update the vulhub git repository
     """
     helper.banner()
     check_init()
@@ -44,10 +48,11 @@ def update():
 
 @typer_app.command()
 def run(vulhub_names: str, silent: bool = typer.Option(False, "--silent")):
-    """Run a list of vulhub projects
+    """
+    Run a list of vuln projects
 
     Args:
-        vulhub_names (str): A comma-separated list of vulhub projects
+        vulhub_names (str): A comma-separated list of vuln projects
         silent (bool, optional): Silent mode, disable the log to parse the output. Defaults to False
     """
     helper.banner(silent)
@@ -70,10 +75,11 @@ def run(vulhub_names: str, silent: bool = typer.Option(False, "--silent")):
 
 @typer_app.command()
 def down(vulhub_names: str, silent: bool = typer.Option(False, "--silent")):
-    """Down a list of vulhub projects
+    """
+    Down a list of vuln projects
 
     Args:
-        vulhub_names (str): A comma-separated list of vulhub projects
+        vulhub_names (str): A comma-separated list of vuln projects
         silent (bool, optional): Silent mode, disable the log to parse the output. Defaults to False
     """
 
@@ -89,7 +95,8 @@ def down(vulhub_names: str, silent: bool = typer.Option(False, "--silent")):
 
 @typer_app.command()
 def generate_vulnenv(no_vulns: int, no_env: int = 1):
-    """Generate <no_env> vulnerable environments composed of <no_vulns> stacks
+    """
+    Generate <no_env> vulnerable environments composed of <no_vulns> stacks
         Each environment has no port conflicts. It is useful to run different vulhub projects on different machines.
     Args:
         no_vulns (int): The number of vulnerable compose

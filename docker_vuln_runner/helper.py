@@ -21,7 +21,7 @@ def banner(silent = False):
         ╚════██║██╔══╝  ██║     ╚════██║██║
         ███████║███████╗╚██████╗███████║██║
         ╚══════╝╚══════╝ ╚═════╝╚══════╝╚═╝
-        vuln-runner v0.1.5 - https://github.com/cybersecsi/docker-vuln-runner
+        vuln-runner v0.1.0 - https://github.com/cybersecsi/docker-vuln-runner
         ''')   
 
 def log(msg, silent = False):
