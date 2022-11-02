@@ -66,6 +66,21 @@
             "type": "shell",
             "command": "make push"
 
-        }
+        },
+        {
+            "label": "run-controller",
+            "type": "shell",
+            "command": "poetry run vuln-controller init"
+        },
+        {
+            "label": "run-discovery",
+            "type": "shell",
+            "command": "poetry run vuln-controller discovery 10.5.0.0/24"
+        },
+        {
+            "label": "run-node-init",
+            "type": "shell",
+            "command": "poetry run vuln-node init"
+        },
     ]
 }

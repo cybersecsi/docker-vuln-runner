@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-    <img src="https://raw.githubusercontent.com/cybersecsi/docker-vuln-runner/main/logo.png" alt= "Docker Vuln Runner" width="300px">
+    <img src="https://raw.githubusercontent.com/cyberscsi/docker-vuln-runner/main/logo.png" alt= "Docker Vuln Runner" width="300px">
 </h1>
 <p align="center">
     <b>Docker Vuln Runner</b> <br />

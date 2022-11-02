@@ -174,3 +174,6 @@ cython_debug/
 *.vsix
 *.json
 .DS_Store
+
+hosts.json
+.vagrant/
