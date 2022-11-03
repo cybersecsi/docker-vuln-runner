@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-    <img src="https://raw.githubusercontent.com/cyberscsi/docker-vuln-runner/main/logo.png" alt= "Docker Vuln Runner" width="300px">
+    <img src="https://raw.githubusercontent.com/cybersecsi/docker-vuln-runner/main/logo.png" alt= "Docker Vuln Runner" width="300px">
 </h1>
 <p align="center">
     <b>Docker Vuln Runner</b> <br />
@@ -135,7 +135,9 @@ vuln-runner down-env output.json 1
 ## Distributed Usage  
 It is possible to use `vuln-runner` in distributed-mode: 
 1. *vuln-nodes* initialize a token and run a tcp server that listens for commands  
-2. A *vuln-controller* initializes the same token and can manage the vulnerable environments   
+2. A *vuln-controller* initializes the same token and can manage the vulnerable environments     
+The example architecture is shown in the following Figure:   
+![image](https://user-images.githubusercontent.com/18548727/199806289-5fba4fec-7e8f-4c97-bb81-c325a7dfa681.png)
 
 ### node configuration   
 1. Initializes the node: 
