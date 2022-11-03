@@ -12,6 +12,11 @@ generate-controller-test:
 
 controller-run:
 	$(POETRY_RUN) vuln-controller run-env 10.5.0.5
+controller-run-all:
+	$(POETRY_RUN) vuln-controller run-envs
+
+controller-down-all:
+	$(POETRY_RUN) vuln-controller down-envs
 controller-norun:
 	$(POETRY_RUN) vuln-controller run-env 10.5.0.9
 

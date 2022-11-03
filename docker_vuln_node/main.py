@@ -36,6 +36,7 @@ def check_token():
 
 
 
+# Start the vuln-node
 @typer_app.command()
 def start():
     check_initialization()

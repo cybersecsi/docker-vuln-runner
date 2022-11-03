@@ -139,6 +139,55 @@ poetry run vuln-runner <command>
 ```
 
 
+## Remote mode  
+It is possible to use `vuln-runner` in distributed node: 
+1. A *vuln-node* initializes a token and run a tcp server that listens for commands  
+2. A *vuln-controller* starts the vulnerable environments   
+
+### node configuration   
+Initializes the node: 
+ 
+```  
+vuln-runner init 
+vuln-node init 
+```
+You have to define a token that will be used to validate the requests that comes from a controller. 
+
+Start the vulnerable node: 
+```  
+vuln-node start  
+```   
+The `vuln-node` listens for connections on port **4545** .  
+When a vuln-node is listening for a connection the controlle is able to find it through the **discovery** step. 
+
+
+### controller configuration  
+Initialize the controller  
+```  
+vuln-runner init 
+vuln-controller init 
+```   
+
+Discovery the remote nodes  
+```   
+vuln-controller discovery <subnet_vulnerable_nodes> -u  
+```  
+The `-u` option updates the `hosts.json` configuration file present in the ~/.vulnenv folder .  
+
+When you have configured the `hosts.json` it is possible to generate a vulnerable environment configuration composed of `<no_env>` vulnerable scenarios. For example, the following command: 
+```  
+vuln-controller generate-vulnenv 2  
+```
+
+generates two vulnerable environment for each `vuln-node` discovered previosly.     
+
+### Design considerations for the distributed architecture  
+The token is used to authenticate the requests that comes from the controller. It is not used as secure mechanism. 
+All the protocol is unencrypted, as we suppose that the environment is "unsecure-by-default". It is used to setup vulnerable machines. An attacker could potentially intercepts the requests and put them down. 
+
+You could setup firewall rules to allow the connections to the **4545** only from the controller IP host. 
+
+This is useful as the students should not be able to see that port. 
 
 ## Credits
 Developed by gx1 [@SecSI](https://secsi.io)

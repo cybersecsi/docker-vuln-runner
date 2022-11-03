@@ -36,7 +36,7 @@ def check_initialization():
 def check_token():
     h = token_initialized()
     if not h:
-        err("Token not initialized, please run \"vuln-node init\" first")
+        err("Token not initialized, please run \"vuln-controller init\" first")
     return h
 
 @typer_app.command()
@@ -86,7 +86,25 @@ def run_env(host: str):
         err("vulnenv not found for {}".format(host))
     vuln_client.run(env_host) 
 
+@typer_app.command()
+def run_envs():
+    h = check_token()
+    envs = h.envs
+    hosts = envs.keys()
+    for host in hosts: 
+        env_host = envs.get(host)
+        vuln_client = VulnClient(host, h.token)
+        vuln_client.run(env_host)
     
+@typer_app.command()
+def down_envs():
+    h = check_token()
+    envs = h.envs
+    hosts = envs.keys()
+    for host in hosts: 
+        env_host = envs.get(host)
+        vuln_client = VulnClient(host, h.token)
+        vuln_client.down(env_host)
 
 @typer_app.command()
 def ping(ip: str):

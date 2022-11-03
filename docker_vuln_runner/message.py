@@ -20,6 +20,8 @@ class VulnMessage:
     def is_run(self):
         return self.msg == 'run'
 
+    def is_down(self):
+        return self.msg == 'down'
 
     def msg(self):
         return json.dumps(self.__dict__)
