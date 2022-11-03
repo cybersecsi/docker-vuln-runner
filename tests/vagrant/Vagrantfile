@@ -1,0 +1,37 @@
+Vagrant.configure("2") do |config|
+  # The most common configuration options are documented and commented below.
+  # For a complete reference, please see the online documentation at
+  # https://docs.vagrantup.com.
+
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://vagrantcloud.com/search.
+
+    $script = <<-SCRIPT
+      sudo apt-get update && sudo apt-get install -y python3-pip
+      pip install poetry
+      curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
+      sudo bash /tmp/get-docker.sh
+      echo "export PATH=$PATH:/home/vagrant/.local/bin" >> ~/.bashrc
+      export PATH=$PATH:/home/vagrant/.local/bin
+      cd /vuln-env && poetry install
+  SCRIPT
+
+  config.vm.define "vuln-node-1" do |first|
+    first.vm.box = "bento/ubuntu-22.04"
+    first.vm.network "private_network", ip: "10.5.0.5"
+    first.vm.synced_folder "../../", "/vuln-env"
+    first.vm.provision "shell", inline: $script, privileged: false
+
+
+  end
+
+
+
+  config.vm.define "vuln-node-2" do |second|
+    second.vm.box = "bento/ubuntu-22.04"
+    second.vm.network "private_network", ip: "10.5.0.6"
+    second.vm.synced_folder "../../", "/vuln-env"
+    second.vm.provision "shell", inline: $script, privileged: false
+  end
+
+end

@@ -8,6 +8,7 @@ import git
 import json
 from python_on_whales import DockerClient, docker as docker_cli
 
+
 class VulnRepo:
     """A vulnerable repository instance
     """
@@ -92,16 +93,18 @@ def vuln_names(vulns):
 
 
 
-def find_repo_projects(base_name, base_path):
+def find_repo_projects(base_name, base_path, virtual = False):
     ret = []
     for filename in glob.iglob(os.path.join(base_path, '**/docker-compose.yml'), recursive=True):
+        if virtual:
+            filename = filename.replace(vuln_home(), virtual_vuln_home())
         ret.append(Vuln("{}.{}".format(base_name, get_compose_name(filename)), filename))
     return ret
 
-def find_vuln_projects(base_path):
+def find_vuln_projects(base_path, virtual = False):
     ret = []
     for V in VULN_REPOS:
-        ret = ret + find_repo_projects(V.name, base_path)
+        ret = ret + find_repo_projects(V.name, base_path, virtual)
 
     return ret
 
@@ -137,6 +140,9 @@ def vuln_home():
     config_folder = os.path.join(home_folder, '.vulnenv')
     return config_folder
 
+def virtual_vuln_home():
+    return "{}".format("VULN_HOME")
+
 def vuln_init():
     if not os.path.isdir(vuln_home()):
         os.mkdir(vuln_home())
@@ -163,6 +169,7 @@ def check_init():
     if not is_initialized():
         err("{} does not exist, please run \"vuln-runner init\" first".format(vuln_home()))
 
+
 def vuln_update():
     for V in VULN_REPOS:
         log("Update {} repo in {}".format(V.repo, V.home()))
@@ -172,6 +179,9 @@ def vuln_update():
 
 def is_initialized():
     return os.path.exists(vuln_home()) and len(os.listdir(vuln_home())) != 0
+
+
+
 
     # def name(self, vulnerable_name):
     #     return "{}.{}".format(self.name, vulnerable_name)
@@ -196,8 +206,9 @@ class Vuln:
     def load_compose(self):
         """Load the docker-compose object
         """
+        real_path = self.path.replace("VULN_HOME", vuln_home())
         if self.compose is None:
-            with open(self.path) as stream:
+            with open(real_path) as stream:
                 self.compose = safe_load(stream)
 
     def down(self):
@@ -259,7 +270,7 @@ class Vulnenv:
         """
         self.envs[env_id] = [v.to_obj() for v in vulns]
 
-    def create_env(self, env_id, no_vulns):
+    def create_env(self, env_id, no_vulns, virtual = False):
         """Collect the list of vulnerabilities,
         create an env and add to the internal structure
 

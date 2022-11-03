@@ -4,7 +4,7 @@ version = "0.1.2"
 description = "A Docker runner for docker-based vulnerable environments."
 authors = ["SecSI <dev@secsi.io>"]
 readme = "README.md"
-packages = [{include = "docker_vuln_runner"}]
+packages = [{include = "docker_vuln_runner"}, {include = "docker_vuln_controller"}, {include = "docker_vuln_node"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -24,3 +24,5 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 vuln-runner = 'docker_vuln_runner.main:app'
+vuln-controller = 'docker_vuln_controller.main:app'
+vuln-node = 'docker_vuln_node.main:app'

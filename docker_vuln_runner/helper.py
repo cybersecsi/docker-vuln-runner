@@ -4,6 +4,7 @@ import glob
 from os import path
 import sys
 import pkg_resources
+import ipaddress
 VERSION = pkg_resources.get_distribution('vuln-runner').version
 
 # Colors
@@ -32,6 +33,10 @@ def log(msg, silent = False):
         current_time = now.strftime("%H:%M:%S")
         print(f"[{current_time}] - [LOG] - {msg}", flush=True)
 
+def warn(msg):
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    print(f"{DEBUG_C}[{current_time}] - [WARN] - {msg}{END_C}", flush=True)
 def success(msg):
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
@@ -48,7 +53,16 @@ def bold(msg):
 
 
 def get_compose_name(full_path):
-    return path.basename(path.normpath(path.dirname(full_path)))
+    base_name =  path.basename(path.normpath(path.dirname(full_path)))
+    return base_name
 
+
+def check_network(subnet):
+    try: 
+        ipa = ipaddress.ip_network(subnet)
+        return ipa
+
+    except Exception as e:
+        return False
 
 
