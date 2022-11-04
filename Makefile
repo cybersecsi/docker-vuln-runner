@@ -1,5 +1,13 @@
 POETRY_RUN=poetry run
-RM=rm -rf
+ifdef ComSpec
+	RM=cmd /C del /F /Q
+	PATHSEP2=\\
+else
+	RM=rm -rf
+	PATHSEP2=/
+endif
+
+
 
 client-test:
 	$(POETRY_RUN) vuln-controller ping 10.5.0.5
@@ -30,7 +38,7 @@ node-run:
 	$(POETRY_RUN) vuln-node run
 
 build: 
-	$(RM) dist/
+	$(RM) dist
 	poetry build
 push: build
-	$(POETRY_RUN) twine upload dist/*
+	$(POETRY_RUN) twine upload dist$(PATHSEP2)*
